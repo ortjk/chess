@@ -1,0 +1,19 @@
+﻿  Chess.cpp
+  Game.cpp
+c:\users\thomas\source\repos\chess\chess\game.cpp(51): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+  chessPiece.cpp
+c:\users\thomas\source\repos\chess\chess\chesspiece.cpp(92): warning C4244: 'argument': conversion from 'const T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+  Generating Code...
+  Chess.vcxproj -> C:\Users\Thomas\source\repos\Chess\Debug\Chess.exe
