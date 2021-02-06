@@ -9,7 +9,7 @@ Knight::~Knight()
 } 
 
 bool
-Knight::canMove(Board* board, char fromFile, int fromRank, char toFile, int toRank) const 
+Knight::canMove(Board* board, Board::Square toSquare) const 
 {
 	return false;
 }

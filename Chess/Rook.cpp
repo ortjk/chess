@@ -9,7 +9,7 @@ Rook::~Rook()
 } 
 
 bool
-Rook::canMove(Board* board, char fromFile, int fromRank, char toFile, int toRank) const 
+Rook::canMove(Board* board, Board::Square toSquare) const 
 {
 	return false;
 }

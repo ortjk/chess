@@ -1,13 +1,5 @@
 #pragma once
-#include <iostream>
-#include <vector>
-#include<SFML/Graphics.hpp>
-#include<SFML/Window.hpp>
-#include<SFML/System.hpp>
-#include<SFML/Audio.hpp>
-
-class Board;
-class Square;
+#include "Board.h"
 
 class Piece
 {
@@ -40,13 +32,14 @@ public:
 		COLOR_COUNT
 	};
 
-	void initVariables();
-
 	Piece(Kind kind, Color color);
 	virtual ~Piece();
 
-	void setSquare(Square* square);
-	Square* getSquare() const;
+	Kind getKind() const;
+	Color getColor() const;
+
+	void setSquare(Board::Square square);
+	Board::Square getSquare() const;
 
 	bool isBlack() const;
 	bool isWhite() const;
@@ -57,18 +50,13 @@ public:
 	bool isQueen() const;
 	bool isKing() const;
 
-	virtual 
-	bool canMove(Board* board, char fromFile, int fromRank, char toFile, int toRank) const = 0;
+	virtual bool canMove(Board* board, Board::Square toSquare) const = 0;
 
-	sf::Sprite getSprite();
 private:
 	int _kindnum;
-
-	sf::Texture _texture;
-	sf::Sprite _sprite;
 
 	const Kind _kind; 
 	const Color _color; 
 
-	Square* _square;
+	Board::Square _square;
 };

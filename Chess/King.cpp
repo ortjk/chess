@@ -11,7 +11,7 @@ King::~King()
 } 
 
 bool
-King::canMove(Board* board, char fromFile, int fromRank, char toFile, int toRank) const 
+King::canMove(Board* board, Board::Square toSquare) const 
 {
 	return false;
 }

@@ -10,7 +10,7 @@ public:
 	Rook(Kind kind, Color color);
 	virtual ~Rook();
 
-	virtual bool canMove(Board* board, char fromFile, int fromRank, char toFile, int toRank) const; 
+	virtual bool canMove(Board* board, Board::Square toSquare) const; 
 private:
 };
 
