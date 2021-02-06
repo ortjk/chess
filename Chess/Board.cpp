@@ -48,14 +48,23 @@ Board::setPiece(Square square, Piece* piece)
 {
 	if (piece)
 	{
-		Square current = piece->getSquare();
-		if (current != NONE)
+		Square currentSquare = piece->getSquare();
+		if (currentSquare != NONE)
 		{
-			_squares[current] = 0;	
+			// Remove the piece from where it was.
+			_squares[currentSquare] = 0;	
 		}
+
+		piece->setSquare(square);
+	}
+
+	if (_squares[square])
+	{
+		// This is essentially a capture, for now just tell the piece currently occupying the square that it has no square.
+		_squares[square]->setSquare(Board::NONE);
 	}
 	
-	piece->setSquare(square);
+	// Give the piece a new home.
 	_squares[square] = piece;
 }
 

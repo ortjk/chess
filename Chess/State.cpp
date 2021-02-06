@@ -9,9 +9,8 @@
 #include "King.h"
 
 State::State()
-	: _board(new Board()), _spriteFactory(new SpriteFactory())
+	: _board(new Board()), _spriteFactory(new SpriteFactory()), _pickedPiece(0)
 {
-	//initVariables();
 	//for loop that iterates across all types of colors then pieces until it reaches a stopper, 'COLOR_COUNT' and 'KIND_COUND' respectively
 	for (int c = 0; c < Piece::COLOR_COUNT; ++c)
 	{
@@ -69,14 +68,24 @@ State::~State()
 
 void State::startMove(Board::Square square)
 {
-
+	Piece* piece = _board->getPiece(square);
+	if (piece)
+	{
+		_pickedPiece = piece;
+	}
 }
 
 void State::endMove(Board::Square square)
 {
-
+	if (_pickedPiece)
+	{
+		if (_pickedPiece->canMove(_board, square))
+		{
+			_board->setPiece(square, _pickedPiece);
+		}
+	}
+    _pickedPiece = 0;
 }
-
 
 
 //resets the pieces to their original positions

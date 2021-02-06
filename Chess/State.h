@@ -23,4 +23,5 @@ private:
 	Board* _board;
 	Piece* _pieces[Piece::COLOR_COUNT][Piece::KIND_COUNT];
 	SpriteFactory* _spriteFactory;
+	Piece* _pickedPiece;
 };
