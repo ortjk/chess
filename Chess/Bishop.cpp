@@ -9,7 +9,7 @@ Bishop::~Bishop()
 } 
 
 bool
-Bishop::canMove(Board* board, char fromFile, int fromRank, char toFile, int toRank) const 
+Bishop::canMove(Board* board, Board::Square toSquare) const 
 {
 	return false;
 }

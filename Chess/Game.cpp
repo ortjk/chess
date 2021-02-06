@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <iostream>
 
 //creates window, loads the board texture and the sprite is set to it, board is scaled up, and the delta time float is set to 0
 void Game::initVariables()
@@ -63,7 +64,7 @@ void Game::run()
 		{
 			for (int p = 0; p < Piece::KIND_COUNT; p++)
 			{
-				window.draw(gameState.getSprite(c, p));
+				window.draw(gameState.getSprite((Piece::Color)c, (Piece::Kind)p));
 			}
 		}
 

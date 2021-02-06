@@ -9,10 +9,10 @@ Pawn::~Pawn()
 } 
 
 bool
-Pawn::canMove(Board* board, char fromFile, int fromRank, char toFile, int toRank) const 
+Pawn::canMove(Board* board, Board::Square toSquare) const 
 {
-	Square* square = getSquare();
-	if (!square)
+	Board::Square fromSquare = this->getSquare();
+	if (fromSquare == Board::NONE)
 	{
 		return false;
 	}

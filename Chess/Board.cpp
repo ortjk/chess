@@ -1,84 +1,83 @@
 #include "Board.h"
-#include "Square.h"
+#include "Piece.h"
+
+int
+Board::getFileIndex(Square square)
+{
+    return square / 8;
+}
+
+int
+Board::getRankIndex(Square square)
+{
+    return square % 8;
+}
+
+Board::Square
+Board::getSquareByIndices(int fileIndex, int rankIndex)
+{
+    int index = fileIndex * 8 + rankIndex;
+    if (A1 <= index && index <= H8)
+    {
+        return (Square) index;
+    }
+    return NONE;
+}
 
 //creates an array pointer of each square in an 8x8 grid and puts it in _squares
 Board::Board()
 {
-	for (int r = 0; r < DIMENSION; ++r)
+	for (int i = 0; i < DIMENSION; ++i)
 	{
-		for (int f = 0; f < DIMENSION; ++f)
-		{
-			_squares[r][f] = new Square(r, f);
-		}
+		_squares[i] = 0;
 	}
 }
 
 //array must be deleted as a 'new' was created
 Board::~Board()
 {
-	for (int r = 0; r < DIMENSION; ++r)
+	for (int i = 0; i <= 64; ++i)
 	{
-		for (int f = 0; f < DIMENSION; ++f)
-		{
-			delete _squares[r][f];
-		}
+		_squares[i] = 0;
 	}
 }
 
 //function to change the piece contained by a square
 void
-Board::setPiece(char file, int rank, Piece* piece)
+Board::setPiece(Square square, Piece* piece)
 {
-	getSquare(file, rank)->setPiece(piece);
+	if (piece)
+	{
+		Square currentSquare = piece->getSquare();
+		if (currentSquare != NONE)
+		{
+			// Remove the piece from where it was.
+			_squares[currentSquare] = 0;	
+		}
+
+		piece->setSquare(square);
+	}
+
+	if (_squares[square])
+	{
+		// This is essentially a capture, for now just tell the piece currently occupying the square that it has no square.
+		_squares[square]->setSquare(Board::NONE);
+	}
+	
+	// Give the piece a new home.
+	_squares[square] = piece;
 }
 
 //pointer to what piece is contained by a square
 Piece*
-Board::getPiece(char file, int rank) const
+Board::getPiece(Square square) const
 {
-	return getSquare(file, rank)->getPiece();
+	return _squares[square];
 }
 
 //bool returning whether or not a sqare contains a piece
 bool
-Board::hasPiece(char file, int rank) const
+Board::hasPiece(Square square) const
 {
-	return getSquare(file, rank)->hasPiece();
-}
-
-//returns a pointer to the square specified by the rank and file in the constructor
-Square*
-Board::getSquare(char file, int rank) const
-{
-	return _squares[getIndexByRank(rank)][getIndexByFile(file)];
-}
-
-int
-Board::getIndexByFile(char file) const
-{
-	int index = file - 'a';
-	if (index < 0)
-	{
-		index = 0;
-	}
-	if (index > 7)
-	{
-		index = 7;
-	}
-	return index;
-}
-
-int
-Board::getIndexByRank(int rank) const
-{
-	int index = rank - 1;
-	if (index < 0)
-	{
-		index = 0;
-	}
-	if (index > 7)
-	{
-		index = 7;
-	}
-	return index;
+	return _squares[square] != 0;
 }
