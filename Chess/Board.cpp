@@ -13,7 +13,7 @@ Board::getRankIndex(Square square)
     return square % 8;
 }
 
-Board::Square
+Square
 Board::getSquareByIndices(int fileIndex, int rankIndex)
 {
 	//returns the square enum at the input rank and file by using math
@@ -25,7 +25,7 @@ Board::getSquareByIndices(int fileIndex, int rankIndex)
     return NONE;
 }
 
-//creates 64 'squares'
+//creates 64 pices on info that store whether or not a piece is there
 Board::Board()
 {
 	for (int i = 0; i < DIMENSION; ++i)
@@ -37,7 +37,7 @@ Board::Board()
 //clears every space
 Board::~Board()
 {
-	for (int i = 0; i <= 64; ++i)
+	for (int i = 0; i <= 63; ++i)
 	{
 		_squares[i] = 0;
 	}
@@ -62,7 +62,7 @@ Board::setPiece(Square square, Piece* piece)
 	if (_squares[square])
 	{
 		// This is essentially a capture, for now just tell the piece currently occupying the square that it has no square.
-		_squares[square]->setSquare(Board::NONE);
+		_squares[square]->setSquare(NONE);
 	}
 	
 	// Give the piece a new home.

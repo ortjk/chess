@@ -10,15 +10,15 @@ public:
     virtual ~SpriteFactory();
 
     sf::Sprite& getSprite(Piece* piece);
-	void updatePosition(Piece* piece, Board::Square square);
+	void updatePosition(Piece* piece, Square square);
 
 private:
 	sf::Texture texture;
 
     sf::Sprite& createSprite(Piece* piece);
 
-    int getKindIndex(Piece::Kind kind) const;
-    int getColorIndex(Piece::Color kind) const;
+    int getKindIndex(Kind kind) const;
+    int getColorIndex(Color kind) const;
 
 	/*
 	the call below creates a map. 

@@ -6,18 +6,22 @@ Pawn::Pawn(Kind kind, Color color) : Piece(kind, color)
 
 Pawn::~Pawn()
 {
-} 
+}
+
+void Pawn::setHasMoved()
+{
+	hasMoved = true;
+}
 
 bool
-Pawn::canMove(Board* board, Board::Square toSquare) const 
+Pawn::canMove(Board* board, Square toSquare) const 
 {
-	Board::Square fromSquare = this->getSquare();
-	if (fromSquare == Board::NONE)
+	if (toSquare == this->getSquare() + 8 ||
+		toSquare == this->getSquare() - 8 ||
+		(toSquare == this->getSquare() + 16 && !hasMoved) ||
+		(toSquare == this->getSquare() - 16 && !hasMoved))
 	{
-		return false;
+		return true;
 	}
-
-	// TODO: check if this is the first move, if so we can move 2 spaces forward.
-
 	return false;
 }

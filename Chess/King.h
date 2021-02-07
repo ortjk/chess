@@ -10,7 +10,9 @@ public:
 	King(Kind kind, Color color);
 	virtual ~King();
 
-	virtual bool canMove(Board* board, Board::Square toSquare) const; 
+	virtual void setHasMoved();
+	virtual bool canMove(Board* board, Square toSquare) const; 
 private:
+	bool hasMoved = false;
 };
 

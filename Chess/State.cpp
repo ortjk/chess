@@ -1,3 +1,4 @@
+#include <iostream>
 #include "State.h"
 #include "SpriteFactory.h"
 
@@ -12,40 +13,40 @@ State::State()
 	: _board(new Board()), _spriteFactory(new SpriteFactory()), _pickedPiece(0)
 {
 	//for loop that iterates across all types of colors then pieces until it reaches a stopper, 'COLOR_COUNT' and 'KIND_COUND' respectively
-	for (int c = 0; c < Piece::COLOR_COUNT; ++c)
+	for (int c = 0; c < COLOR_COUNT; ++c)
 	{
-		for (int p = 0; p < Piece::KIND_COUNT; ++p)
+		for (int p = 0; p < KIND_COUNT; ++p)
 		{
 			//checks the piece currently stored by the variable created by the second loop (p) and creates a piece accordingly
 			switch (p)
 			{
-			case Piece::A_PAWN:
-			case Piece::B_PAWN:
-			case Piece::C_PAWN:
-			case Piece::D_PAWN:
-			case Piece::E_PAWN:
-			case Piece::F_PAWN:
-			case Piece::G_PAWN:
-			case Piece::H_PAWN:
-				_pieces[c][p] = new Pawn((Piece::Kind) p, (Piece::Color) c);
+			case A_PAWN:
+			case B_PAWN:
+			case C_PAWN:
+			case D_PAWN:
+			case E_PAWN:
+			case F_PAWN:
+			case G_PAWN:
+			case H_PAWN:
+				_pieces[c][p] = new Pawn((Kind) p, (Color) c);
 				break;
-			case Piece::Q_ROOK:
-			case Piece::K_ROOK:
-				_pieces[c][p] = new Rook((Piece::Kind) p, (Piece::Color) c);
+			case Q_ROOK:
+			case K_ROOK:
+				_pieces[c][p] = new Rook((Kind) p, (Color) c);
 				break;
-			case Piece::Q_KNIGHT:
-			case Piece::K_KNIGHT:
-				_pieces[c][p] = new Knight((Piece::Kind) p, (Piece::Color) c);
+			case Q_KNIGHT:
+			case K_KNIGHT:
+				_pieces[c][p] = new Knight((Kind) p, (Color) c);
 				break;
-			case Piece::Q_BISHOP:
-			case Piece::K_BISHOP:
-				_pieces[c][p] = new Bishop((Piece::Kind) p, (Piece::Color) c);
+			case Q_BISHOP:
+			case K_BISHOP:
+				_pieces[c][p] = new Bishop((Kind) p, (Color) c);
 				break;
-			case Piece::QUEEN:
-				_pieces[c][p] = new Queen((Piece::Kind) p, (Piece::Color) c);
+			case QUEEN:
+				_pieces[c][p] = new Queen((Kind) p, (Color) c);
 				break;
-			case Piece::KING:
-				_pieces[c][p] = new King((Piece::Kind) p, (Piece::Color) c);
+			case KING:
+				_pieces[c][p] = new King((Kind) p, (Color) c);
 				break;
 			}
 		}
@@ -54,23 +55,20 @@ State::State()
 
 State::~State()
 {
-	if (_board)
-	{
-		delete _board;
-		_board = 0;
-	}
+
+	delete _board;
 	delete _spriteFactory;
 
-	for (int c = 0; c < Piece::COLOR_COUNT; ++c)
+	for (int c = 0; c < COLOR_COUNT; ++c)
 	{
-		for (int p = 0; p < Piece::KIND_COUNT; ++p)
+		for (int p = 0; p < KIND_COUNT; ++p)
 		{
 			delete _pieces[c][p];
 		}
 	}
 }
 
-void State::startMove(Board::Square square)
+void State::startMove(Square square)
 {
 	Piece* piece = _board->getPiece(square);
 	if (piece)
@@ -79,70 +77,84 @@ void State::startMove(Board::Square square)
 	}
 }
 
-void State::endMove(Board::Square square)
+void State::endMove(Square square)
 {
 	if (_pickedPiece)
 	{
 		if (_pickedPiece->canMove(_board, square))
 		{
 			_board->setPiece(square, _pickedPiece);
+			_spriteFactory->updatePosition(_pickedPiece, square);
+			this->_pickedPiece->setHasMoved();
 		}
 	}
     _pickedPiece = 0;
 }
+
+void State::squareClicked(sf::Vector2i point)
+{
+	std::cout << _hitbox.getSquareAtPoint(point) << std::endl;
+	this->startMove(_hitbox.getSquareAtPoint(point));
+}
+
+void State::squareReleased(sf::Vector2i point)
+{
+	std::cout << _hitbox.getSquareAtPoint(point) << " e" << std::endl;
+	this->endMove(_hitbox.getSquareAtPoint(point));
+}
+
+
 
 
 //resets the pieces to their original positions
 void
 State::reset()
 {
-	_board->setPiece(Board::A1, _pieces[Piece::WHITE][Piece::Q_ROOK]);
-	_board->setPiece(Board::B1, _pieces[Piece::WHITE][Piece::Q_KNIGHT]);
-	_board->setPiece(Board::C1, _pieces[Piece::WHITE][Piece::Q_BISHOP]);
-	_board->setPiece(Board::D1, _pieces[Piece::WHITE][Piece::QUEEN]);
-	_board->setPiece(Board::E1, _pieces[Piece::WHITE][Piece::KING]);
-	_board->setPiece(Board::F1, _pieces[Piece::WHITE][Piece::K_BISHOP]);
-	_board->setPiece(Board::G1, _pieces[Piece::WHITE][Piece::K_KNIGHT]);
-	_board->setPiece(Board::H1, _pieces[Piece::WHITE][Piece::K_ROOK]);
-	_board->setPiece(Board::A2, _pieces[Piece::WHITE][Piece::A_PAWN]);
-	_board->setPiece(Board::B2, _pieces[Piece::WHITE][Piece::B_PAWN]);
-	_board->setPiece(Board::C2, _pieces[Piece::WHITE][Piece::C_PAWN]);
-	_board->setPiece(Board::D2, _pieces[Piece::WHITE][Piece::D_PAWN]);
-	_board->setPiece(Board::E2, _pieces[Piece::WHITE][Piece::E_PAWN]);
-	_board->setPiece(Board::F2, _pieces[Piece::WHITE][Piece::F_PAWN]);
-	_board->setPiece(Board::G2, _pieces[Piece::WHITE][Piece::G_PAWN]);
-	_board->setPiece(Board::H2, _pieces[Piece::WHITE][Piece::H_PAWN]);
+	_board->setPiece(A1, _pieces[WHITE][Q_ROOK]);
+	_board->setPiece(B1, _pieces[WHITE][Q_KNIGHT]);
+	_board->setPiece(C1, _pieces[WHITE][Q_BISHOP]);
+	_board->setPiece(D1, _pieces[WHITE][QUEEN]);
+	_board->setPiece(E1, _pieces[WHITE][KING]);
+	_board->setPiece(F1, _pieces[WHITE][K_BISHOP]);
+	_board->setPiece(G1, _pieces[WHITE][K_KNIGHT]);
+	_board->setPiece(H1, _pieces[WHITE][K_ROOK]);
+	_board->setPiece(A2, _pieces[WHITE][A_PAWN]);
+	_board->setPiece(B2, _pieces[WHITE][B_PAWN]);
+	_board->setPiece(C2, _pieces[WHITE][C_PAWN]);
+	_board->setPiece(D2, _pieces[WHITE][D_PAWN]);
+	_board->setPiece(E2, _pieces[WHITE][E_PAWN]);
+	_board->setPiece(F2, _pieces[WHITE][F_PAWN]);
+	_board->setPiece(G2, _pieces[WHITE][G_PAWN]);
+	_board->setPiece(H2, _pieces[WHITE][H_PAWN]);
 
-	_board->setPiece(Board::A8, _pieces[Piece::BLACK][Piece::Q_ROOK]);
-	_board->setPiece(Board::B8, _pieces[Piece::BLACK][Piece::Q_KNIGHT]);
-	_board->setPiece(Board::C8, _pieces[Piece::BLACK][Piece::Q_BISHOP]);
-	_board->setPiece(Board::D8, _pieces[Piece::BLACK][Piece::QUEEN]);
-	_board->setPiece(Board::E8, _pieces[Piece::BLACK][Piece::KING]);
-	_board->setPiece(Board::F8, _pieces[Piece::BLACK][Piece::K_BISHOP]);
-	_board->setPiece(Board::G8, _pieces[Piece::BLACK][Piece::K_KNIGHT]);
-	_board->setPiece(Board::H8, _pieces[Piece::BLACK][Piece::K_ROOK]);
-	_board->setPiece(Board::A7, _pieces[Piece::BLACK][Piece::A_PAWN]);
-	_board->setPiece(Board::B7, _pieces[Piece::BLACK][Piece::B_PAWN]);
-	_board->setPiece(Board::C7, _pieces[Piece::BLACK][Piece::C_PAWN]);
-	_board->setPiece(Board::D7, _pieces[Piece::BLACK][Piece::D_PAWN]);
-	_board->setPiece(Board::E7, _pieces[Piece::BLACK][Piece::E_PAWN]);
-	_board->setPiece(Board::F7, _pieces[Piece::BLACK][Piece::F_PAWN]);
-	_board->setPiece(Board::G7, _pieces[Piece::BLACK][Piece::G_PAWN]);
-	_board->setPiece(Board::H7, _pieces[Piece::BLACK][Piece::H_PAWN]);
+	_board->setPiece(A8, _pieces[BLACK][Q_ROOK]);
+	_board->setPiece(B8, _pieces[BLACK][Q_KNIGHT]);
+	_board->setPiece(C8, _pieces[BLACK][Q_BISHOP]);
+	_board->setPiece(D8, _pieces[BLACK][QUEEN]);
+	_board->setPiece(E8, _pieces[BLACK][KING]);
+	_board->setPiece(F8, _pieces[BLACK][K_BISHOP]);
+	_board->setPiece(G8, _pieces[BLACK][K_KNIGHT]);
+	_board->setPiece(H8, _pieces[BLACK][K_ROOK]);
+	_board->setPiece(A7, _pieces[BLACK][A_PAWN]);
+	_board->setPiece(B7, _pieces[BLACK][B_PAWN]);
+	_board->setPiece(C7, _pieces[BLACK][C_PAWN]);
+	_board->setPiece(D7, _pieces[BLACK][D_PAWN]);
+	_board->setPiece(E7, _pieces[BLACK][E_PAWN]);
+	_board->setPiece(F7, _pieces[BLACK][F_PAWN]);
+	_board->setPiece(G7, _pieces[BLACK][G_PAWN]);
+	_board->setPiece(H7, _pieces[BLACK][H_PAWN]);
 
-	for (int c = 0; c < Piece::COLOR_COUNT; c++)
+	for (int c = 0; c < COLOR_COUNT; c++)
 	{
-		for (int p = 0; p < Piece::KIND_COUNT; p++)
+		for (int p = 0; p < KIND_COUNT; p++)
 		{
-			_spriteFactory->updatePosition(_pieces[(Piece::Color)c][(Piece::Kind)p], _pieces[(Piece::Color)c][(Piece::Kind)p]->getSquare());
+			_spriteFactory->updatePosition(_pieces[(Color)c][(Kind)p], _pieces[(Color)c][(Kind)p]->getSquare());
 		}
 	}
 }
 
 const sf::Sprite&
-State::getSprite(Piece::Color color, Piece::Kind kind) const
+State::getSprite(Color color, Kind kind) const
 {
-	
-
 	return _spriteFactory->getSprite(_pieces[color][kind]);
 }

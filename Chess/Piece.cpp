@@ -2,21 +2,22 @@
 
 //a piece can be created with a kind, color, and its square set to none
 Piece::Piece(Kind kind, Color color)
-	: _kind(kind), _color(color), _square(Board::NONE)
+	: _kind(kind), _color(color), _square(NONE)
 {
 }
 
 Piece::~Piece()
 {
 }
-
-Piece::Kind
+//returns invalid if space that the move was started on was empty
+//
+Kind
 Piece::getKind() const
 {
 	return _kind;
 }
 
-Piece::Color
+Color
 Piece::getColor() const
 {
 	return _color;
@@ -24,13 +25,13 @@ Piece::getColor() const
 
 //sets the square that the piece should occupy
 void
-Piece::setSquare(Board::Square square)
+Piece::setSquare(Square square)
 {
 	_square = square;
 }
 
 //gets a pointer to the square that the piece is occupying
-Board::Square
+Square
 Piece::getSquare() const
 {
 	return _square;
@@ -129,5 +130,3 @@ Piece::isKing() const
 {
 	return _kind == KING;
 }
-
-

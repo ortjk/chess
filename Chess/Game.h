@@ -11,6 +11,8 @@ private:
 
 	sf::Clock clock;
 	float dt;
+
+	State gameState;
 public:
 
 	//initializers

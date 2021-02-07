@@ -1,5 +1,4 @@
 #include "SpriteFactory.h"
-#include "Board.h"
 #include <iostream>
 
 SpriteFactory::SpriteFactory()
@@ -31,79 +30,41 @@ SpriteFactory::getSprite(Piece* piece)
     return createSprite(piece);
 }
 
-void SpriteFactory::updatePosition(Piece* piece, Board::Square square)
+void SpriteFactory::updatePosition(Piece* piece, Square square)
 {
-	//BRACKETS ARE NEEDED FOR CASES BECAUSE OF TRANSFER OF CONTROL
-	switch (square % 8)
-	{
-	case 0:
-		getSprite(piece).setPosition(0, 0);
-		break;
-	case 1:
-	{
-		getSprite(piece).setPosition(135, 0);
-	}	break;
-	case 2:
-	{
-		getSprite(piece).setPosition(270, 0);
-	}	break;
-	case 3:
-	{
-		getSprite(piece).setPosition(405, 0);
-	}	break;
-	case 4:
-	{
-		getSprite(piece).setPosition(540, 0);
-	}	break;
-	case 5:
-	{
-		getSprite(piece).setPosition(675, 0);
-	}	break;
-	case 6:
-	{
-		getSprite(piece).setPosition(810, 0);
-	}	break;
-	case 7:
-	{
-		getSprite(piece).setPosition(945, 0);
-	}	break;
-	default:
-		std::cout << "error in the file setting of the sprite\n";
-		break;
-	}
+	getSprite(piece).setPosition((square % 8) * 135, 0);
 	
-
 	if (0 <= square && square <= 7)
 	{
-		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 945);
+		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 0);
 	}
 	else if (8 <= square && square <= 15)
 	{
-		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 810);
+		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 143);
 	}
 	else if (16 <= square && square <= 23)
 	{
-		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 675);
+		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 278);
 	}
 	else if (24 <= square && square <= 31)
 	{
-		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 540);
+		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 413);
 	}
 	else if (32 <= square && square <= 39)
 	{
-		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 405);
+		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 548);
 	}
 	else if (40 <= square && square <= 47)
 	{
-		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 270);
+		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 683);
 	}
 	else if (48 <= square && square <= 55)
 	{
-		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 135);
+		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 818);
 	}
 	else if (56 <= square && square <= 64)
 	{
-		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 0);
+		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 953);
 	}
 	else
 	{
@@ -136,31 +97,31 @@ SpriteFactory::createSprite(Piece* piece)
 
 //i Made these
 int
-SpriteFactory::getKindIndex(Piece::Kind kind) const
+SpriteFactory::getKindIndex(Kind kind) const
 {
     switch (kind)
 	{
-	case Piece::A_PAWN:
-	case Piece::B_PAWN:
-	case Piece::C_PAWN:
-	case Piece::D_PAWN:
-	case Piece::E_PAWN:
-	case Piece::F_PAWN:
-	case Piece::G_PAWN:
-	case Piece::H_PAWN:
+	case A_PAWN:
+	case B_PAWN:
+	case C_PAWN:
+	case D_PAWN:
+	case E_PAWN:
+	case F_PAWN:
+	case G_PAWN:
+	case H_PAWN:
 		return 5;
-	case Piece::Q_ROOK:
-	case Piece::K_ROOK:
+	case Q_ROOK:
+	case K_ROOK:
 		return 0;
-	case Piece::Q_KNIGHT:
-	case Piece::K_KNIGHT:
+	case Q_KNIGHT:
+	case K_KNIGHT:
 		return 1;
-	case Piece::Q_BISHOP:
-	case Piece::K_BISHOP:
+	case Q_BISHOP:
+	case K_BISHOP:
 		return 2;
-	case Piece::QUEEN:
+	case QUEEN:
 		return 3;
-	case Piece::KING:
+	case KING:
 		return 4;
 	default:
         break;
@@ -169,13 +130,13 @@ SpriteFactory::getKindIndex(Piece::Kind kind) const
 }
 
 int
-SpriteFactory::getColorIndex(Piece::Color color) const
+SpriteFactory::getColorIndex(Color color) const
 {
     switch (color)
     {
-    case Piece::BLACK:
+    case BLACK:
         return 0;
-    case Piece::WHITE:
+    case WHITE:
         return 1;
     default:
         break;

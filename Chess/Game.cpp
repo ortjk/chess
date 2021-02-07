@@ -35,7 +35,6 @@ void Game::updateDt()
 
 void Game::run()
 {
-	State gameState;
 	gameState.reset();
 
 	//main game loop, everything inside is repeated for as long as window is open
@@ -43,15 +42,32 @@ void Game::run()
 	{
 		updateDt();
 
+		sf::IntRect rect(0, 0, 135, 135);
+
 		//sf event is a queue for all actions input by the user, and if any of these events are the window closing, the window is closed
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == sf::Event::Closed)
+			switch (event.type)
 			{
+			case sf::Event::Closed:
 				window.close();
+				break;
+			case sf::Event::MouseButtonPressed:
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					gameState.squareClicked(sf::Mouse::getPosition(window));
+				}
+				break;
+			case sf::Event::MouseButtonReleased:
+				gameState.squareReleased(sf::Mouse::getPosition(window));
+				break;
+			default:
+				break;
 			}
+
 		}
+
 
 		//the making of one frame:
 		//clears the window and paints it black
@@ -60,11 +76,11 @@ void Game::run()
 		//draws the sprites input
 		window.draw(backgroundBoard);
 
-		for (int c = 0; c < Piece::COLOR_COUNT; c++)
+		for (int c = 0; c < COLOR_COUNT; c++)
 		{
-			for (int p = 0; p < Piece::KIND_COUNT; p++)
+			for (int p = 0; p < KIND_COUNT; p++)
 			{
-				window.draw(gameState.getSprite((Piece::Color)c, (Piece::Kind)p));
+				window.draw(gameState.getSprite((Color)c, (Kind)p));
 			}
 		}
 

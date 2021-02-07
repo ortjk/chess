@@ -1,10 +1,10 @@
 #pragma once
-#include "Board.h"
-#include "Piece.h"
-#include <SFML/Graphics.hpp>
+#include "Hitbox.h"
+
 
 class Board;
 class SpriteFactory;
+class Hitbox;
 
 class State
 {
@@ -12,16 +12,20 @@ public:
 	State();
 	virtual ~State();
 	
-	void startMove(Board::Square square);
-	void endMove(Board::Square square);
+	void startMove(Square square);
+	void endMove(Square square);
 	
+	void squareClicked(sf::Vector2i point);
+	void squareReleased(sf::Vector2i point);
+
 	void reset();
 
-	const sf::Sprite& getSprite(Piece::Color, Piece::Kind) const;
+	const sf::Sprite& getSprite(Color, Kind) const;
 
 private:
 	Board* _board;
-	Piece* _pieces[Piece::COLOR_COUNT][Piece::KIND_COUNT];
+	Piece* _pieces[COLOR_COUNT][KIND_COUNT];
 	SpriteFactory* _spriteFactory;
 	Piece* _pickedPiece;
+	Hitbox _hitbox;
 };
