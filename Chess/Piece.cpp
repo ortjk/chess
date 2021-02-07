@@ -1,6 +1,6 @@
 #include "Piece.h"
 
-//a piece can be created with a kind, color, and its square set to 0
+//a piece can be created with a kind, color, and its square set to none
 Piece::Piece(Kind kind, Color color)
 	: _kind(kind), _color(color), _square(Board::NONE)
 {

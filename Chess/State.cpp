@@ -54,7 +54,11 @@ State::State()
 
 State::~State()
 {
-	delete _board;
+	if (_board)
+	{
+		delete _board;
+		_board = 0;
+	}
 	delete _spriteFactory;
 
 	for (int c = 0; c < Piece::COLOR_COUNT; ++c)
@@ -126,11 +130,19 @@ State::reset()
 	_board->setPiece(Board::G7, _pieces[Piece::BLACK][Piece::G_PAWN]);
 	_board->setPiece(Board::H7, _pieces[Piece::BLACK][Piece::H_PAWN]);
 
-	//_sprite.setPosition(sf::Vector2f(10.f + (10 * numFile), 10.f + (10 * numRank)));
+	for (int c = 0; c < Piece::COLOR_COUNT; c++)
+	{
+		for (int p = 0; p < Piece::KIND_COUNT; p++)
+		{
+			_spriteFactory->updatePosition(_pieces[(Piece::Color)c][(Piece::Kind)p], _pieces[(Piece::Color)c][(Piece::Kind)p]->getSquare());
+		}
+	}
 }
 
 const sf::Sprite&
 State::getSprite(Piece::Color color, Piece::Kind kind) const
 {
+	
+
 	return _spriteFactory->getSprite(_pieces[color][kind]);
 }

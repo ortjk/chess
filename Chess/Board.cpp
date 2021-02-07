@@ -16,15 +16,16 @@ Board::getRankIndex(Square square)
 Board::Square
 Board::getSquareByIndices(int fileIndex, int rankIndex)
 {
+	//returns the square enum at the input rank and file by using math
     int index = fileIndex * 8 + rankIndex;
-    if (A1 <= index && index <= H8)
+    if (A8 <= index && index <= H1)
     {
         return (Square) index;
     }
     return NONE;
 }
 
-//creates an array pointer of each square in an 8x8 grid and puts it in _squares
+//creates 64 'squares'
 Board::Board()
 {
 	for (int i = 0; i < DIMENSION; ++i)
@@ -33,7 +34,7 @@ Board::Board()
 	}
 }
 
-//array must be deleted as a 'new' was created
+//clears every space
 Board::~Board()
 {
 	for (int i = 0; i <= 64; ++i)
