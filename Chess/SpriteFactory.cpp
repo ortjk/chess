@@ -32,43 +32,39 @@ SpriteFactory::getSprite(Piece* piece)
 
 void SpriteFactory::updatePosition(Piece* piece, Square square)
 {
-	getSprite(piece).setPosition((square % 8) * 135, 0);
+	getSprite(piece).setPosition((square % 8) * 135.f, 0.f);
 	
 	if (0 <= square && square <= 7)
 	{
-		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 0);
+		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 0.f);
 	}
 	else if (8 <= square && square <= 15)
 	{
-		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 143);
+		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 143.f);
 	}
 	else if (16 <= square && square <= 23)
 	{
-		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 278);
+		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 278.f);
 	}
 	else if (24 <= square && square <= 31)
 	{
-		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 413);
+		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 413.f);
 	}
 	else if (32 <= square && square <= 39)
 	{
-		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 548);
+		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 548.f);
 	}
 	else if (40 <= square && square <= 47)
 	{
-		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 683);
+		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 683.f);
 	}
 	else if (48 <= square && square <= 55)
 	{
-		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 818);
+		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 818.f);
 	}
 	else if (56 <= square && square <= 64)
 	{
-		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 953);
-	}
-	else
-	{
-		std::cout << "error in the rank setting of the sprite\n";
+		getSprite(piece).setPosition(getSprite(piece).getPosition().x, 953.f);
 	}
 }
 

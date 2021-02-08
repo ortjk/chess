@@ -9,8 +9,8 @@ Piece::Piece(Kind kind, Color color)
 Piece::~Piece()
 {
 }
+
 //returns invalid if space that the move was started on was empty
-//
 Kind
 Piece::getKind() const
 {
@@ -130,3 +130,17 @@ Piece::isKing() const
 {
 	return _kind == KING;
 }
+
+bool Piece::isSameColor(Board* board, Square toSquare) const
+{
+	if (board->getPiece(toSquare))
+	{
+		if (this->_color == board->getPiece(toSquare)->getColor())
+		{
+			return true;
+		}
+		return false;
+	}
+	return false;
+}
+

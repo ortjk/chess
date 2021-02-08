@@ -12,6 +12,8 @@ public:
 	State();
 	virtual ~State();
 	
+	bool turnCheck();
+
 	void startMove(Square square);
 	void endMove(Square square);
 	
@@ -23,6 +25,7 @@ public:
 	const sf::Sprite& getSprite(Color, Kind) const;
 
 private:
+	Color currentTurn = WHITE;
 	Board* _board;
 	Piece* _pieces[COLOR_COUNT][KIND_COUNT];
 	SpriteFactory* _spriteFactory;

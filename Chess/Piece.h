@@ -23,6 +23,8 @@ public:
 	bool isQueen() const;
 	bool isKing() const;
 
+	bool isSameColor(Board* board, Square toSquare) const;
+
 	virtual void setHasMoved() = 0;
 
 	virtual bool canMove(Board* board, Square toSquare) const = 0;

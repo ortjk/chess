@@ -15,6 +15,10 @@ void Bishop::setHasMoved()
 bool
 Bishop::canMove(Board* board, Square toSquare) const 
 {
+	if (this->isSameColor(board, toSquare))
+	{
+		return false;
+	}
 	for (int i = 1; i <= 8; i++)
 	{
 		if (toSquare == this->getSquare() - (7 * i) ||

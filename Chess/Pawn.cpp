@@ -16,6 +16,10 @@ void Pawn::setHasMoved()
 bool
 Pawn::canMove(Board* board, Square toSquare) const 
 {
+	if (this->isSameColor(board, toSquare))
+	{
+		return false;
+	}
 	if (toSquare == this->getSquare() + 8 ||
 		toSquare == this->getSquare() - 8 ||
 		(toSquare == this->getSquare() + 16 && !hasMoved) ||

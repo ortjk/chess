@@ -18,6 +18,10 @@ void King::setHasMoved()
 bool
 King::canMove(Board* board, Square toSquare) const 
 {
+	if (this->isSameColor(board, toSquare))
+	{
+		return false;
+	}
 	if (toSquare == this->getSquare() - 7 ||
 		toSquare == this->getSquare() - 8 ||
 		toSquare == this->getSquare() - 9 ||

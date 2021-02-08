@@ -12,6 +12,8 @@
 State::State()
 	: _board(new Board()), _spriteFactory(new SpriteFactory()), _pickedPiece(0)
 {
+
+
 	//for loop that iterates across all types of colors then pieces until it reaches a stopper, 'COLOR_COUNT' and 'KIND_COUND' respectively
 	for (int c = 0; c < COLOR_COUNT; ++c)
 	{
@@ -68,6 +70,24 @@ State::~State()
 	}
 }
 
+bool
+State::turnCheck()
+{
+	if (this->currentTurn != this->_pickedPiece->getColor())
+	{
+		if (this->currentTurn == WHITE)
+		{
+			this->currentTurn = BLACK;
+		}
+		else
+		{
+			this->currentTurn = WHITE;
+		}
+		return true;
+	}
+	return false;
+}
+
 void State::startMove(Square square)
 {
 	Piece* piece = _board->getPiece(square);
@@ -81,11 +101,23 @@ void State::endMove(Square square)
 {
 	if (_pickedPiece)
 	{
+		
 		if (_pickedPiece->canMove(_board, square))
 		{
-			_board->setPiece(square, _pickedPiece);
-			_spriteFactory->updatePosition(_pickedPiece, square);
-			this->_pickedPiece->setHasMoved();
+			if (this->turnCheck())
+			{
+				this->_board->setPiece(square, _pickedPiece);
+				this->_spriteFactory->updatePosition(_pickedPiece, square);
+				this->_pickedPiece->setHasMoved();
+
+				for (int c = 0; c < COLOR_COUNT; c++)
+				{
+					for (int p = 0; p < KIND_COUNT; p++)
+					{
+						this->_spriteFactory->updatePosition(_pieces[(Color)c][(Kind)p], _pieces[(Color)c][(Kind)p]->getSquare());
+					}
+				}
+			}
 		}
 	}
     _pickedPiece = 0;
