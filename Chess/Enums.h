@@ -39,3 +39,11 @@ enum Color
 	BLACK,
 	COLOR_COUNT
 };
+
+enum Direction
+{
+	VERTICAL,
+	HORIZONTAL,
+	POSITIVE_DIAGONAL,
+	NEGATIVE_DIAGONAL
+};

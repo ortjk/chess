@@ -26,6 +26,9 @@ public:
 	bool isSameColor(Board* board, Square toSquare) const;
 
 	virtual void setHasMoved() = 0;
+	virtual bool getHasMoved() = 0;
+
+	virtual bool isFirstCapture(Board* board, Square square) = 0;
 
 	virtual bool canMove(Board* board, Square toSquare) const = 0;
 

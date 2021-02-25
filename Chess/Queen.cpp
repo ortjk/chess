@@ -12,6 +12,16 @@ void Queen::setHasMoved()
 {
 }
 
+bool Queen::getHasMoved()
+{
+	return false;
+}
+
+bool Queen::isFirstCapture(Board * board, Square square)
+{
+	return Square();
+}
+
 bool
 Queen::canMove(Board* board, Square toSquare) const 
 {
@@ -21,16 +31,61 @@ Queen::canMove(Board* board, Square toSquare) const
 	}
 	for (int i = 1; i <= 8; i++)
 	{
-		if (toSquare == this->getSquare() - (7 * i) ||
-			toSquare == this->getSquare() - (8 * i) ||
-			toSquare == this->getSquare() - (1 * i) ||
-			toSquare == this->getSquare() + (1 * i) ||
-			toSquare == this->getSquare() + (8 * i) ||
-			toSquare == this->getSquare() - (9 * i) ||
-			toSquare == this->getSquare() + (7 * i) ||
-			toSquare == this->getSquare() + (9 * i))
+		if (toSquare == this->getSquare() - (8 * i))
 		{
-			return true;
+			if (board->getFirstObstruction(this->getSquare(), toSquare, VERTICAL) == nullptr)
+			{
+				return true;
+			}
+		}
+		else if (toSquare == this->getSquare() - (1 * i))
+		{
+			if (board->getFirstObstruction(this->getSquare(), toSquare, HORIZONTAL) == nullptr)
+			{
+				return true;
+			}
+		}
+		else if (toSquare == this->getSquare() + (1 * i))
+		{
+			if (board->getFirstObstruction(this->getSquare(), toSquare, HORIZONTAL) == nullptr)
+			{
+				return true;
+			}
+		}
+		else if (toSquare == this->getSquare() + (8 * i))
+		{
+			if (board->getFirstObstruction(this->getSquare(), toSquare, VERTICAL) == nullptr)
+			{
+				return true;
+			}
+		}
+		else if (toSquare == this->getSquare() - (7 * i))
+		{
+			if (board->getFirstObstruction(this->getSquare(), toSquare, POSITIVE_DIAGONAL) == nullptr)
+			{
+				return true;
+			}
+		}
+		else if (toSquare == this->getSquare() - (9 * i))
+		{
+			if (board->getFirstObstruction(this->getSquare(), toSquare, NEGATIVE_DIAGONAL) == nullptr)
+			{
+				return true;
+			}
+		}
+		else if (toSquare == this->getSquare() + (7 * i))
+		{
+			if (board->getFirstObstruction(this->getSquare(), toSquare, POSITIVE_DIAGONAL) == nullptr)
+			{
+				return true;
+			}
+		}
+		else if (toSquare == this->getSquare() + (9 * i))
+		{
+			if (board->getFirstObstruction(this->getSquare(), toSquare, NEGATIVE_DIAGONAL) == nullptr)
+			{
+				return true;
+			}
 		}
 	}
 	return false;

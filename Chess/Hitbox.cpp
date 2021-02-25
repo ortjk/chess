@@ -65,5 +65,6 @@ Square Hitbox::getSquareAtPoint(sf::Vector2i point)
 			return Square(i);
 		}
 	}
+	return Square(64);
 }
 

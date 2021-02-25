@@ -12,6 +12,16 @@ void Knight::setHasMoved()
 {
 }
 
+bool Knight::getHasMoved()
+{
+	return false;
+}
+
+bool Knight::isFirstCapture(Board * board, Square square)
+{
+	return Square();
+}
+
 bool
 Knight::canMove(Board* board, Square toSquare) const 
 {

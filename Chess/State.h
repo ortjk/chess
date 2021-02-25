@@ -13,12 +13,17 @@ public:
 	virtual ~State();
 	
 	bool turnCheck();
+	void swapTurn();
 
 	void startMove(Square square);
 	void endMove(Square square);
 	
 	void squareClicked(sf::Vector2i point);
 	void squareReleased(sf::Vector2i point);
+
+	void pieceToMousePos(sf::Vector2i mouse);
+
+	bool kingInCheck(Color kingColor, Square squareChange);
 
 	void reset();
 

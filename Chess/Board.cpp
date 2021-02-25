@@ -82,3 +82,137 @@ Board::hasPiece(Square square) const
 {
 	return _squares[square] != 0;
 }
+
+//returns first piece inbetween point a and point b
+Piece*
+Board::getFirstObstruction(Square fromSquare, Square toSquare, Direction direction)
+{
+	if (direction == VERTICAL)
+	{
+		if (fromSquare < toSquare)
+		{
+			for (int i = 1; i <= 7; i++)
+			{
+				if (Square(fromSquare + (i * 8)) == toSquare)
+				{
+					return nullptr;
+				}
+
+				if (_squares[fromSquare + (i * 8)] != 0)
+				{
+					return _squares[fromSquare + (i * 8)];
+				}
+			}
+			return nullptr;
+		}
+		for (int i = -1; i >= -7; i--)
+		{
+			if (Square(fromSquare + (i * 8)) == toSquare)
+			{
+				return nullptr;
+			}
+
+			if (_squares[fromSquare + (i * 8)] != 0)
+			{
+				return _squares[fromSquare + (i * 8)];
+			}
+		}
+	}
+	
+	if (direction == HORIZONTAL)
+	{
+		if (fromSquare < toSquare)
+		{
+			for (int i = 1; i <= 7; i++)
+			{
+				if (Square(fromSquare + i) == toSquare)
+				{
+					return nullptr;
+				}
+				if (_squares[fromSquare + i] != 0)
+				{
+					return _squares[fromSquare + i];
+				}
+			}
+			return nullptr;
+		}
+
+	for (int i = -1; i >= -7; i--)
+	{
+		if (Square(fromSquare + i) == toSquare)
+		{
+			return nullptr;
+		}
+		if (_squares[fromSquare + i] != 0)
+		{
+			return _squares[fromSquare + i];
+		}
+		}
+	}
+
+	//if diagonal
+	if (direction == POSITIVE_DIAGONAL)
+	{
+		if (fromSquare < toSquare)
+		{
+			for (int i = 1; i <= 7; i++)
+			{
+				if (Square(fromSquare + (i * 7)) == toSquare)
+				{
+					return nullptr;
+				}
+
+				if (_squares[fromSquare + (i * 7)] != 0)
+				{
+					return _squares[fromSquare + (i * 7)];
+				}
+			}
+			return nullptr;
+		}
+		for (int i = -1; i >= -7; i--)
+		{
+			if (Square(fromSquare + (i * 7)) == toSquare)
+			{
+				return nullptr;
+			}
+
+			if (_squares[fromSquare + (i * 7)] != 0)
+			{
+				return _squares[fromSquare + (i * 7)];
+			}
+		}
+	}
+	if (direction == NEGATIVE_DIAGONAL)
+	{
+		if (fromSquare < toSquare)
+		{
+			for (int i = 1; i <= 7; i++)
+			{
+				if (Square(fromSquare + (i * 9)) == toSquare)
+				{
+					return nullptr;
+				}
+
+				if (_squares[fromSquare + (i * 9)] != 0)
+				{
+					return _squares[fromSquare + (i * 9)];
+				}
+			}
+			return nullptr;
+		}
+		for (int i = -1; i >= -9; i--)
+		{
+			if (Square(fromSquare + (i * 9)) == toSquare)
+			{
+				return nullptr;
+			}
+
+			if (_squares[fromSquare + (i * 9)] != 0)
+			{
+				return _squares[fromSquare + (i * 9)];
+			}
+		}
+	}
+
+	return nullptr;
+}

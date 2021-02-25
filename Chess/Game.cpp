@@ -65,9 +65,11 @@ void Game::run()
 			default:
 				break;
 			}
-
 		}
 
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+			gameState.pieceToMousePos(sf::Mouse::getPosition(window));
+		}
 
 		//the making of one frame:
 		//clears the window and paints it black

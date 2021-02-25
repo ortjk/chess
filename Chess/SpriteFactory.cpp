@@ -75,12 +75,11 @@ SpriteFactory::createSprite(Piece* piece)
 {
 	//first, converts the kind and color of the piece into usable values by the sprite sheet
     int kindIndex = this->getKindIndex(piece->getKind());
-    int colorIndex = this->getColorIndex(piece->getColor());
 
 	//initializes the sprite
     sf::Sprite sprite;
 	sprite.setTexture(texture);
-	sprite.setTextureRect(sf::IntRect((16 * kindIndex), (16 * colorIndex), 16, 16));
+	sprite.setTextureRect(sf::IntRect((16 * kindIndex), (16 * piece->getColor()), 16, 16));
 	sprite.setScale(8.f, 8.f);
 
 	//adds the sprite to the map
@@ -122,20 +121,5 @@ SpriteFactory::getKindIndex(Kind kind) const
 	default:
         break;
 	}
-    return 0;
-}
-
-int
-SpriteFactory::getColorIndex(Color color) const
-{
-    switch (color)
-    {
-    case BLACK:
-        return 0;
-    case WHITE:
-        return 1;
-    default:
-        break;
-    }
     return 0;
 }

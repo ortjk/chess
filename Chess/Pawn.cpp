@@ -13,6 +13,16 @@ void Pawn::setHasMoved()
 	hasMoved = true;
 }
 
+bool Pawn::getHasMoved()
+{
+	return false;
+}
+
+bool Pawn::isFirstCapture(Board* board, Square square)
+{
+	return Square();
+}
+
 bool
 Pawn::canMove(Board* board, Square toSquare) const 
 {
@@ -20,12 +30,54 @@ Pawn::canMove(Board* board, Square toSquare) const
 	{
 		return false;
 	}
-	if (toSquare == this->getSquare() + 8 ||
-		toSquare == this->getSquare() - 8 ||
-		(toSquare == this->getSquare() + 16 && !hasMoved) ||
-		(toSquare == this->getSquare() - 16 && !hasMoved))
+
+	//normal movement check
+	if (toSquare == this->getSquare() + 8 &&
+		!board->getPiece(toSquare) &&
+		this->isBlack())
 	{
+		
+		return true;
+
+	}
+	if (toSquare == this->getSquare() - 8 &&
+		!board->getPiece(toSquare) &&
+		this->isWhite())
+	{
+	
 		return true;
 	}
+
+	//capture check
+	if (toSquare == this->getSquare() + 7 ||
+		toSquare == this->getSquare() + 9 ||
+		toSquare == this->getSquare() - 7 ||
+		toSquare == this->getSquare() - 9)
+	{
+		if (board->getPiece(toSquare))
+		{
+			if (board->getPiece(toSquare)->getColor() != this->getColor())
+			{
+				return true;
+			}
+		}
+	}
+
+	//double movement check
+	if (toSquare == this->getSquare() + 16 && !hasMoved)
+	{
+		if (board->getFirstObstruction(this->getSquare(), toSquare, VERTICAL) == nullptr)
+		{
+			return true;
+		}
+	}
+	if (toSquare == this->getSquare() - 16 && !hasMoved)
+	{
+		if (board->getFirstObstruction(this->getSquare(), toSquare, VERTICAL) == nullptr)
+		{
+			return true;
+		}
+	}
+
 	return false;
 }

@@ -18,7 +18,6 @@ private:
     sf::Sprite& createSprite(Piece* piece);
 
     int getKindIndex(Kind kind) const;
-    int getColorIndex(Color kind) const;
 
 	/*
 	the call below creates a map. 

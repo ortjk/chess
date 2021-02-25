@@ -73,19 +73,24 @@ State::~State()
 bool
 State::turnCheck()
 {
-	if (this->currentTurn != this->_pickedPiece->getColor())
+	if (this->currentTurn == this->_pickedPiece->getColor())
 	{
-		if (this->currentTurn == WHITE)
-		{
-			this->currentTurn = BLACK;
-		}
-		else
-		{
-			this->currentTurn = WHITE;
-		}
 		return true;
 	}
 	return false;
+}
+
+void
+State::swapTurn()
+{
+	if (this->currentTurn == WHITE)
+	{
+		this->currentTurn = BLACK;
+	}
+	else
+	{
+		this->currentTurn = WHITE;
+	}
 }
 
 void State::startMove(Square square)
@@ -101,23 +106,24 @@ void State::endMove(Square square)
 {
 	if (_pickedPiece)
 	{
-		
-		if (_pickedPiece->canMove(_board, square))
+		if (this->turnCheck())
 		{
-			if (this->turnCheck())
-			{
-				this->_board->setPiece(square, _pickedPiece);
-				this->_spriteFactory->updatePosition(_pickedPiece, square);
-				this->_pickedPiece->setHasMoved();
-
-				for (int c = 0; c < COLOR_COUNT; c++)
+			//if (this->kingInCheck(this->currentTurn, square) == false)
+			//{
+				if (_pickedPiece->canMove(_board, square))
 				{
-					for (int p = 0; p < KIND_COUNT; p++)
-					{
-						this->_spriteFactory->updatePosition(_pieces[(Color)c][(Kind)p], _pieces[(Color)c][(Kind)p]->getSquare());
-					}
+					this->swapTurn();
+					this->_board->setPiece(square, _pickedPiece);
+					this->_pickedPiece->setHasMoved();
 				}
-			}
+			//}
+		}
+	}
+	for (int c = 0; c < COLOR_COUNT; c++)
+	{
+		for (int p = 0; p < KIND_COUNT; p++)
+		{
+			this->_spriteFactory->updatePosition(_pieces[(Color)c][(Kind)p], _pieces[(Color)c][(Kind)p]->getSquare());
 		}
 	}
     _pickedPiece = 0;
@@ -125,18 +131,58 @@ void State::endMove(Square square)
 
 void State::squareClicked(sf::Vector2i point)
 {
-	std::cout << _hitbox.getSquareAtPoint(point) << std::endl;
 	this->startMove(_hitbox.getSquareAtPoint(point));
 }
 
 void State::squareReleased(sf::Vector2i point)
 {
-	std::cout << _hitbox.getSquareAtPoint(point) << " e" << std::endl;
 	this->endMove(_hitbox.getSquareAtPoint(point));
 }
 
+void State::pieceToMousePos(sf::Vector2i mouse)
+{
+	if (_pickedPiece) {
+		_spriteFactory->getSprite(_pickedPiece).setPosition(sf::Vector2f(mouse.x - 68, mouse.y - 68));
+	}
+}
 
+bool State::kingInCheck(Color kingColor, Square squareChange)
+{
+	Square resetSquare = _pickedPiece->getSquare();
+	if (_board->getPiece(squareChange) != nullptr)
+	{
+		//_board->setPiece(PLACEHOLDER, _board->getPiece(squareChange));
+	}
 
+	_board->setPiece(squareChange, _pickedPiece);
+
+	if (kingColor == WHITE)
+	{
+		for (int p = 0; p < KIND_COUNT; p++)
+		{
+			if (_pieces[BLACK][Kind(p)]->canMove(_board, _pieces[WHITE][KING]->getSquare()))
+			{
+				return true;
+			}
+		}
+	}
+	else
+	{
+		for (int p = 0; p < KIND_COUNT; p++)
+		{
+			if (_pieces[WHITE][Kind(p)]->canMove(_board, _pieces[BLACK][KING]->getSquare()))
+			{
+				return true;
+			}
+		}
+	}
+	_board->setPiece(resetSquare, _pickedPiece);
+//	if (_board->getPiece(PLACEHOLDER) != nullptr)
+	{
+		//_board->setPiece(squareChange, _board->getPiece(PLACEHOLDER));
+	}
+	return false;
+}
 
 //resets the pieces to their original positions
 void

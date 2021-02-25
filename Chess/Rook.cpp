@@ -13,6 +13,16 @@ void Rook::setHasMoved()
 	this->hasMoved = true;
 }
 
+bool Rook::getHasMoved()
+{
+	return this->hasMoved;
+}
+
+bool Rook::isFirstCapture(Board* board, Square square)
+{
+	return Square();
+}
+
 bool
 Rook::canMove(Board* board, Square toSquare) const 
 {
@@ -21,17 +31,45 @@ Rook::canMove(Board* board, Square toSquare) const
 		return false;
 	}
 	
-
-	
-	for (int i = 1; i <= 8; i++)
+	//preventing weird movement bug
+	if (toSquare == this->getSquare() - 7 ||
+		toSquare == this->getSquare() - 6 ||
+		toSquare == this->getSquare() + 7 ||
+		toSquare == this->getSquare() + 6)
 	{
-		if (toSquare == this->getSquare() + (1 * i) ||
-			toSquare == this->getSquare() - (8 * i) ||
-			toSquare == this->getSquare() - (1 * i) ||
-			toSquare == this->getSquare() + (8 * i))
+		return false;
+	}
+	
+	//normal movement check
+	for (int i = 1; i <= 7; i++)
+	{
+		if (toSquare == this->getSquare() + (1 * i))
 		{
-			
-			return true;
+			if (board->getFirstObstruction(this->getSquare(), toSquare, HORIZONTAL) == nullptr)
+			{
+				return true;
+			}
+		}
+		else if (toSquare == this->getSquare() - (8 * i))
+		{
+			if (board->getFirstObstruction(this->getSquare(), toSquare, VERTICAL) == nullptr)
+			{
+				return true;
+			}
+		}
+		else if (toSquare == this->getSquare() - (1 * i))
+		{
+			if (board->getFirstObstruction(this->getSquare(), toSquare, HORIZONTAL) == nullptr)
+			{
+				return true;
+			}
+		}
+		else if (toSquare == this->getSquare() + (8 * i))
+		{
+			if (board->getFirstObstruction(this->getSquare(), toSquare, VERTICAL) == nullptr)
+			{
+				return true;
+			}
 		}
 	}
 	return false;

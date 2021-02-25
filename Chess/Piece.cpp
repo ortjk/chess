@@ -139,7 +139,6 @@ bool Piece::isSameColor(Board* board, Square toSquare) const
 		{
 			return true;
 		}
-		return false;
 	}
 	return false;
 }
