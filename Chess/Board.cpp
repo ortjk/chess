@@ -27,20 +27,34 @@ Board::getSquareByIndices(int fileIndex, int rankIndex)
 
 //creates 64 pices on info that store whether or not a piece is there
 Board::Board()
+	: _squares(DIMENSION, 0)
 {
-	for (int i = 0; i < DIMENSION; ++i)
-	{
-		_squares[i] = 0;
-	}
 }
 
 //clears every space
 Board::~Board()
 {
-	for (int i = 0; i <= 63; ++i)
+}
+
+void
+Board::commit()
+{
+	_states.push_back(_squares);
+}
+
+const std::vector<Piece*>&
+Board::getState(int moveNumber) const
+{
+	switch (moveNumber)
 	{
-		_squares[i] = 0;
+		case TEMP:
+			return _squares;
+		case LAST:
+			return _states[_states.size() - 1];
+		default:
+			break;
 	}
+	return _states[moveNumber];
 }
 
 //function to change the piece contained by a square
@@ -71,16 +85,16 @@ Board::setPiece(Square square, Piece* piece)
 
 //pointer to what piece is contained by a square
 Piece*
-Board::getPiece(Square square) const
+Board::getPiece(Square square, int moveNumber) const
 {
-	return _squares[square];
+	return getState(moveNumber)[square];
 }
 
 //bool returning whether or not a sqare contains a piece
 bool
 Board::hasPiece(Square square) const
 {
-	return _squares[square] != 0;
+	return this->getPiece(square, 0) != 0;
 }
 
 //returns first piece inbetween point a and point b
