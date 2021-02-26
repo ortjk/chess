@@ -114,16 +114,20 @@ void State::endMove(Square square)
 				{
 					this->swapTurn();
 					this->_board->setPiece(square, _pickedPiece);
+					this->_board->commit();
 					this->_pickedPiece->setHasMoved();
 				}
 			//}
 		}
 	}
-	for (int c = 0; c < COLOR_COUNT; c++)
+
+	const std::vector<Piece*>& state = _board->getState();
+	for (std::vector<Piece*>::const_iterator p = state.begin(); p != state.end(); ++p)
 	{
-		for (int p = 0; p < KIND_COUNT; p++)
+		Piece* piece = *p;
+		if (piece)
 		{
-			this->_spriteFactory->updatePosition(_pieces[(Color)c][(Kind)p], _pieces[(Color)c][(Kind)p]->getSquare());
+			this->_spriteFactory->updatePosition(piece, piece->getSquare());
 		}
 	}
     _pickedPiece = 0;
@@ -221,6 +225,8 @@ State::reset()
 	_board->setPiece(F7, _pieces[BLACK][F_PAWN]);
 	_board->setPiece(G7, _pieces[BLACK][G_PAWN]);
 	_board->setPiece(H7, _pieces[BLACK][H_PAWN]);
+
+	_board->commit();
 
 	for (int c = 0; c < COLOR_COUNT; c++)
 	{
