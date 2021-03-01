@@ -120,14 +120,11 @@ void State::endMove(Square square)
 			//}
 		}
 	}
-
-	const std::vector<Piece*>& state = _board->getState();
-	for (std::vector<Piece*>::const_iterator p = state.begin(); p != state.end(); ++p)
+	for (int c = 0; c < COLOR_COUNT; c++)
 	{
-		Piece* piece = *p;
-		if (piece)
+		for (int p = 0; p < KIND_COUNT; p++)
 		{
-			this->_spriteFactory->updatePosition(piece, piece->getSquare());
+			this->_spriteFactory->updatePosition(_pieces[(Color)c][(Kind)p], _pieces[(Color)c][(Kind)p]->getSquare());
 		}
 	}
     _pickedPiece = 0;
