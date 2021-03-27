@@ -1,0 +1,16 @@
+﻿  Bishop.cpp
+  Board.cpp
+  Chess.cpp
+  Game.cpp
+  King.cpp
+  Knight.cpp
+  Pawn.cpp
+  Piece.cpp
+  Queen.cpp
+  Rook.cpp
+  SpriteFactory.cpp
+  State.cpp
+  Generating code
+  All 253 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Chess.vcxproj -> C:\Users\Thomas\source\repos\Chess\Release\Chess.exe
