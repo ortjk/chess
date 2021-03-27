@@ -115,6 +115,14 @@ SpriteFactory::getKindIndex(Kind kind) const
 	case K_BISHOP:
 		return 2;
 	case QUEEN:
+	case A_X_QUEEN:
+	case B_X_QUEEN:
+	case C_X_QUEEN:
+	case D_X_QUEEN:
+	case E_X_QUEEN:
+	case F_X_QUEEN:
+	case G_X_QUEEN:
+	case H_X_QUEEN:
 		return 3;
 	case KING:
 		return 4;

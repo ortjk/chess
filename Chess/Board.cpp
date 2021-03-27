@@ -36,12 +36,14 @@ Board::~Board()
 {
 }
 
+//puts the board state into the vector
 void
 Board::commit()
 {
 	_states.push_back(_squares);
 }
 
+//function that returns a piece pointer from a vector
 const std::vector<Piece*>&
 Board::getState(int moveNumber) const
 {
@@ -57,10 +59,29 @@ Board::getState(int moveNumber) const
 	return _states[moveNumber];
 }
 
+void Board::setState(int moveNumber)
+{
+	if (moveNumber == LAST)
+	{
+		_squares = _states[_states.size() - 2]; //sets the current vector of pieces to the previous one
+		_states.erase(_states.end() - 1); //deletes the vector of pieces that was just being used
+	}
+	else
+	{
+		_squares = _states[moveNumber];
+		for (int i = _states.size() - 1; i > moveNumber; i--)
+		{
+			_states.erase(_states.begin() + i);
+		}
+	}
+	
+}
+
 //function to change the piece contained by a square
 void
 Board::setPiece(Square square, Piece* piece)
 {
+	//sets the inputed piece's data
 	if (piece)
 	{
 		Square currentSquare = piece->getSquare();
@@ -73,14 +94,15 @@ Board::setPiece(Square square, Piece* piece)
 		piece->setSquare(square);
 	}
 
-	if (_squares[square])
-	{
-		// This is essentially a capture, for now just tell the piece currently occupying the square that it has no square.
-		_squares[square]->setSquare(NONE);
+	if (square != NONE) {
+		if (_squares[square]) //checks if there's a piece already there
+		{
+			// This is essentially a capture, for now just tell the piece currently occupying the square that it has no square.
+			_squares[square]->setSquare(NONE);
+		}
+		// Give the piece a new home.
+		_squares[square] = piece;
 	}
-	
-	// Give the piece a new home.
-	_squares[square] = piece;
 }
 
 //pointer to what piece is contained by a square

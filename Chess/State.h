@@ -23,7 +23,10 @@ public:
 
 	void pieceToMousePos(sf::Vector2i mouse);
 
-	bool kingInCheck(Color kingColor, Square squareChange);
+	void goToMove();
+
+	bool kingInCheck();
+	void promotionCheck(Piece* piece);
 
 	void reset();
 
@@ -36,4 +39,6 @@ private:
 	SpriteFactory* _spriteFactory;
 	Piece* _pickedPiece;
 	Hitbox _hitbox;
+
+	Square startSquare;
 };

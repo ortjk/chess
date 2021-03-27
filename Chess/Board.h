@@ -8,8 +8,6 @@ class Board
 {
 public:
 	static const int DIMENSION = 64;
-	static const int TEMP = -2;
-	static const int LAST = -1;
 	
 	static int getFileIndex(Square square);
 	static int getRankIndex(Square square); 
@@ -19,15 +17,18 @@ public:
 	virtual ~Board();
 
 	void commit();
-	const std::vector<Piece*>& getState(int moveNumber = LAST) const;
+	const std::vector<Piece*>& getState(int moveNumber = TEMP) const;
+
+	void setState(int moveNumber);
 
 	void setPiece(Square square, Piece* piece);
-	Piece* getPiece(Square square, int moveNumber = LAST) const;
+	Piece* getPiece(Square square, int moveNumber = TEMP) const;
 	bool hasPiece(Square square) const;
 	Piece* getFirstObstruction(Square fromSquare, Square toSquare, Direction direction);
 
 private:
-
+	//there are two private variables: the _squares vector which is the current board state, and the _states vector which
+	//holds all past states
 	std::vector<Piece*> _squares;
 	std::vector<std::vector<Piece*> > _states;
 };

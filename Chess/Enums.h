@@ -30,6 +30,14 @@ enum Kind
 	K_BISHOP,
 	K_KNIGHT,
 	K_ROOK,
+	A_X_QUEEN,
+	B_X_QUEEN,
+	C_X_QUEEN,
+	D_X_QUEEN,
+	E_X_QUEEN,
+	F_X_QUEEN,
+	G_X_QUEEN,
+	H_X_QUEEN,
 	KIND_COUNT
 };
 
@@ -46,4 +54,10 @@ enum Direction
 	HORIZONTAL,
 	POSITIVE_DIAGONAL,
 	NEGATIVE_DIAGONAL
+};
+
+enum StateNames
+{
+	TEMP = -2,
+	LAST = -1
 };
